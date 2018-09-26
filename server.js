@@ -18,7 +18,10 @@ function getAllMessages(response) {
 
 function addMessage(message, response) {
   messages.push(message);
-  response.write(message);
+  response.writeHead(200, {
+    'Content-Type': 'application/json'
+  });
+  response.write(JSON.stringify(message));
   response.end();
 }
 
@@ -32,6 +35,7 @@ server.on('request', (request, response) => {
 
     request.on('data', data => {
       newMessage = Object.assign(newMessage, JSON.parse(data));
+      console.log(newMessage);
     });
 
     request.on('end', () => {
